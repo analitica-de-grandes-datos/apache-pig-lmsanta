@@ -18,5 +18,6 @@ u = LOAD 'data.tsv' USING PigStorage('\t')
         numero:CHARARRAY);
 
 y = ORDER u BY numero;
-y = LIMIT y 5;
-STORE y INTO 'output' USING PigStorage(',');
+z = FOREACH y GENERATE $2;
+z = LIMIT z 5;
+STORE z INTO 'output' USING PigStorage(',');
