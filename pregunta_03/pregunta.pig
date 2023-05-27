@@ -15,7 +15,7 @@ $ pig -x local -f pregunta.pig
 u = LOAD 'data.tsv' USING PigStorage('\t')
         AS(letra:CHARARRAY,
         fecha:CHARARRAY,
-        numero:CHARARRAY);
+        numero:INT);
 
 y = ORDER u BY numero;
 z = FOREACH y GENERATE $2;
