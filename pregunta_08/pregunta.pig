@@ -22,7 +22,7 @@ data = LOAD 'data.tsv' AS
           letter_bag:bag{},
           lista:map[]);
 
-data = FOREACH data GENERATE FLATTEN(letter_bag,lista) AS lista_letras;
-grupo = GROUP data by lista_letras;
-result = FOREACH grupo GENERATE group, COUNT(data.lista_letras);
+data = FOREACH data GENERATE FLATTEN(letter_bag) AS letra, FLATTEN(lista) AS lista_letras;
+grupo = GROUP data by (letra,lista_letras);
+result = FOREACH grupo GENERATE group, COUNT(data);
 STORE result INTO 'output' USING PigStorage(',');
