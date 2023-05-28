@@ -13,26 +13,16 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
-*/
-data1 = LOAD 'data.tsv' USING PigStorage('\t')
-        AS(col1:CHARARRAY,
-        tuples:BAG{},
-        col3:MAP[]);
-
-x = FOREACH data1 GENERATE FLATTEN(tuples) AS letra:CHARARRAY, 1 AS valor:INT;
-y = FOREACH x GENERATE letra;
-grupo = GROUP y BY letra;
-re = FOREACH grupo GENERATE group, COUNT(y.letra);
-STORE re INTO 'output' USING PigStorage(',');
-
-*/
 
 data1 = LOAD 'data.tsv' USING PigStorage('\t')
         AS(col1:CHARARRAY,
         tuples:BAG{},
         col3:MAP[]);
 
-x = FOREACH data1 GENERATE FLATTEN(TOKENIZE(tuples)) AS letra;
-grupo = GROUP x BY letra;
-re = FOREACH grupo GENERATE group, COUNT(x);
-STORE re INTO 'output' USING PigStorage(',');
+letras = FOREACH data1 GENERATE FLATTEN(TOKENIZE(tuples)) AS letra;
+
+grouped = GROUP letras BY letra;
+
+letracount = FOREACH grouped GENERATE group, COUNT(letras);
+
+STORE letracount INTO 'output' USING PigStorage(',');
