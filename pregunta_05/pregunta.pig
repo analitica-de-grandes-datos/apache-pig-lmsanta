@@ -14,12 +14,12 @@ $ pig -x local -f pregunta.pig
 */
 
 
-data1 = LOAD 'data.tsv' USING PigStorage('\t')
+data1 = LOAD 'data.tsv'
         AS(col1:CHARARRAY,
         tuples:BAG{},
         col3:MAP[]);
 
-letras = FOREACH data1 GENERATE FLATTEN(TOKENIZE(tuples, '(),')) AS letra;
+letras = FOREACH data1 GENERATE FLATTEN(tuples) AS letra;
 
 grouped = GROUP letras BY letra;
 
