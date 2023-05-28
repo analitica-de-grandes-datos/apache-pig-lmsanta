@@ -19,7 +19,7 @@ data1 = LOAD 'data.tsv' USING PigStorage('\t')
         tuples:BAG{},
         col3:MAP[]);
 
-letras = FOREACH data1 GENERATE FLATTEN(TOKENIZE(tuples)) AS letra;
+letras = FOREACH data1 GENERATE FLATTEN(TOKENIZE(tuples, '(),')) AS letra;
 
 grouped = GROUP letras BY letra;
 
