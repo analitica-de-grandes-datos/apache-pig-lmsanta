@@ -42,4 +42,5 @@ data = LOAD 'data.csv' USING PigStorage(',')
            col6:INT);
 
 data = FOREACH data GENERATE col3, UPPER(col3), LOWER(col3);
+data = ORDER data by col3;
 STORE data INTO 'output' USING PigStorage(',');
