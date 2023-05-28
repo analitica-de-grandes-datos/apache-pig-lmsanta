@@ -30,6 +30,6 @@ data = LOAD 'data.csv' USING PigStorage(',')
            col6:INT);
 
 data = FOREACH data GENERATE col3, SIZE(col3) AS largo;
-data = ORDER data BY largo DESC;
+data = ORDER data BY largo DESC, col3 ASC;
 data = LIMIT data 5;
 STORE data INTO 'output' USING PigStorage(',');
