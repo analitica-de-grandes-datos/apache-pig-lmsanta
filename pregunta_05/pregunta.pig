@@ -16,10 +16,9 @@ $ pig -x local -f pregunta.pig
 u = LOAD 'data.tsv' USING PigStorage('\t')
         AS(col1:CHARARRAY,
         col2:BAG{},
-        col3:MAP[]
-        );
+        col3:MAP[]);
 
-y = FOREACH u GENERATE FLATTEN(col2);
-y = GROUP y BY $0;
-z = FOREACH y GENERATE $0, COUNT($0);
+y = FOREACH u GENERATE FLATTEN(col2) AS letra:CHARARRAY;
+grupo = GROUP y BY letra;
+z = FOREACH grupo GENERATE group, COUNT(y.letra);
 STORE z INTO 'output' USING PigStorage(',');
