@@ -34,3 +34,13 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+u = LOAD 'data.csv' USING PigStorage(',')
+        AS(col1:INT,
+           col2:charArray,
+           col3:charArray,
+           col4:charArray,
+           col5:charArray,
+           col6:INT);
+
+u = FOREACH u GENERATE col4, SUBSTRING(col4,8,9),GetDay(ToDate(col4,'yyyy-MM-dd')),ToString(ToDate(col4,'yyyy-MM-dd'),'E', 'es'), ToString(ToDate(col4,'yyyy-MM-dd'),'EEEE', 'es')
+STORE u INTO 'output' USING PigStorage(','); 
