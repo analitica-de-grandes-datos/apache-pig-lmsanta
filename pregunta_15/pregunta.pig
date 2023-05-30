@@ -28,6 +28,6 @@ u = LOAD 'data.csv' USING PigStorage(',')
            col5:charArray,
            col6:INT);
 
-u = FOREACH u GENERATE CONCAT(col2, ' ', col5);
 u = FILTER u BY (SUBSTRING(col2,0,1) MATCHES '[Z]') AND (col5 MATCHES 'blue');
+u = FOREACH u GENERATE CONCAT(col2, ' ', col5);
 STORE u INTO 'output' USING PigStorage(',');
