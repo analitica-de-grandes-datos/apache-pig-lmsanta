@@ -43,7 +43,7 @@ data = LOAD 'data.csv' USING PigStorage(',')
            col6:INT);
 
 
-data_with_month = FOREACH data GENERATE CONCAT(col4, ',', ToString(ToDate(col4, 'yyyy-MM-dd'), 'MMM'));
+data_with_month = FOREACH data GENERATE col4, ToString(ToDate(col4, 'yyyy-MM-dd'), 'MMM');
 
 
 STORE data_with_month INTO 'output' USING PigStorage(',');
