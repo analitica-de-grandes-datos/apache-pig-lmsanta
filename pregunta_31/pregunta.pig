@@ -14,7 +14,7 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
-u = LOAD 'data.csv' USING PigStorage(',')
+data = LOAD 'data.csv' USING PigStorage(',')
         AS(col1:INT,
            col2:charArray,
            col3:charArray,
@@ -22,7 +22,7 @@ u = LOAD 'data.csv' USING PigStorage(',')
            col5:charArray,
            col6:INT);
 
-u = FOREACH u GENERATE GetYear(ToDate(col4,'yyyy-MM-dd')) AS year
-u = GROUP u BY year;
-u = FOREACH u GENERATE group, COUNT(year);
-STORE u INTO 'output' USING PigStorage(','); 
+years = FOREACH data GENERATE SUBSTRING(col4,0,4) AS year
+grouped = GROUP years BY year;
+year_count = FOREACH grouped GENERATE group, COUNT(years);
+STORE year_count INTO 'output' USING PigStorage(','); 
