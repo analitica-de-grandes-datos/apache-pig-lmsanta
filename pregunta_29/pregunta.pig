@@ -60,8 +60,8 @@ data_month = FOREACH data_month GENERATE col4,
                         WHEN 'nov' THEN 'nov'
                         WHEN 'dec' THEN 'dic'
                         ELSE month
-                     END) AS month_spanish,
-                     ToString(ToDate(col4, 'yyyy-MM-dd'), 'MM') AS month_number,
-                     ToString(ToDate(col4, 'yyyy-MM-dd'), 'M') AS day;
+                     END),
+                     ToString(ToDate(col4, 'yyyy-MM-dd'), 'MM'),
+                     ToString(ToDate(col4, 'yyyy-MM-dd'), 'M');
 
 STORE data_month INTO 'output' USING PigStorage(',');
