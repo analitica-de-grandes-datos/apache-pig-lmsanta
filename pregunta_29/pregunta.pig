@@ -45,7 +45,7 @@ data = LOAD 'data.csv' USING PigStorage(',')
 
 data_month = FOREACH data GENERATE col4, LOWER(ToString(ToDate(col4, 'yyyy-MM-dd'), 'MMM')) AS month;
 
-data_month_spanish = FOREACH data_month GENERATE col4,
+data_month = FOREACH data_month GENERATE col4,
                      (CASE month
                         WHEN 'jan' THEN 'ene'
                         WHEN 'feb' THEN 'feb'
@@ -64,4 +64,4 @@ data_month_spanish = FOREACH data_month GENERATE col4,
                      ToString(ToDate(col4, 'yyyy-MM-dd'), 'MM') AS month_number,
                      ToString(ToDate(col4, 'yyyy-MM-dd'), 'M') AS day;
 
-STORE data_month_spanish INTO 'output' USING PigStorage(',');
+STORE data_month INTO 'output' USING PigStorage(',');
