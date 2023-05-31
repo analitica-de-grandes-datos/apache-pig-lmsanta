@@ -22,7 +22,7 @@ data = LOAD 'data.csv' USING PigStorage(',')
            col5:charArray,
            col6:INT);
 
-years = FOREACH data GENERATE SUBSTRING(col4,0,4) AS year
+years = FOREACH data GENERATE SUBSTRING(col4,0,4) AS year;
 grouped = GROUP years BY year;
 year_count = FOREACH grouped GENERATE group, COUNT(years);
 STORE year_count INTO 'output' USING PigStorage(','); 
