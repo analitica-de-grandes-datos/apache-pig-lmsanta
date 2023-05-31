@@ -34,6 +34,8 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+SET pig.datetime.default.timeformat 'dd-MM-yyyy';
+
 data = LOAD 'data.csv' USING PigStorage(',')
         AS(col1:INT,
            col2:charArray,
