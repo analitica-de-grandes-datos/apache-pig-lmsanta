@@ -46,6 +46,9 @@ data = LOAD 'data.csv' USING PigStorage(',')
 data_with_date = FOREACH data GENERATE col4 AS date;
 
 data_with_month = FOREACH data_with_date GENERATE ToDate(date, 'yyyy-MM-dd') AS datetime;
-data_with_month = FOREACH data_with_month GENERATE ToString(datetime, 'yyyy-MM-dd') AS date, ToString(datetime, 'MMM') AS month, ToString(datetime, 'MM') AS month_num, ToString(datetime, 'M') AS month_digit;
+data_with_month = FOREACH data_with_month GENERATE ToString(datetime, 'yyyy-MM-dd') AS date,
+                    CONCAT(ToString(datetime, 'MMM'), ',') AS month,
+                    CONCAT(ToString(datetime, 'MM'), ',') AS month_num,
+                    CONCAT(ToString(datetime, 'M') AS month_digit);
 
 STORE data_with_month INTO 'output' USING PigStorage(','); 
