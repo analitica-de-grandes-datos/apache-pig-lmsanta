@@ -53,7 +53,7 @@ data_day = FOREACH data GENERATE col4,ToString(ToDate(col4, 'yyyy-MM-dd'), 'dd')
                                         WHEN 'fri' THEN 'vie'
                                         WHEN 'sat' THEN 'sab'
                                         WHEN 'sun' THEN 'dom'
-                                        ELSE month
+                                        ELSE day_short
                                 END),
                                  (CASE day_long
                                         WHEN 'monday' THEN 'lunes'
@@ -63,7 +63,7 @@ data_day = FOREACH data GENERATE col4,ToString(ToDate(col4, 'yyyy-MM-dd'), 'dd')
                                         WHEN 'friday' THEN 'viernes'
                                         WHEN 'saturday' THEN 'sabado'
                                         WHEN 'sunday' THEN 'domingo'
-                                        ELSE month
+                                        ELSE day_long
                                 END);
 
 STORE data_day INTO 'output' USING PigStorage(',');
