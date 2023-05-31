@@ -42,5 +42,5 @@ u = LOAD 'data.csv' USING PigStorage(',')
            col5:charArray,
            col6:INT);
 
-u = FOREACH u GENERATE col4, ToString(ToDate(col4,'yyyy-MM-dd'),'MMM', 'es'),SUBSTRING(col4,5,7),SUBSTRING(col4,6,7)
+u = FOREACH u GENERATE col4, ToString(ToDate(col4,'yyyy-MM-dd'),'MMM', 'es'),SUBSTRING(col4,5,7),SUBSTRING(col4,6,7);
 STORE u INTO 'output' USING PigStorage(','); 
