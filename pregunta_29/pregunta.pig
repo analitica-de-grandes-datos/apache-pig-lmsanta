@@ -34,8 +34,6 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
-SET pig.datetime.default.timeformat 'dd-MM-yyyy';
-
 data = LOAD 'data.csv' USING PigStorage(',')
         AS(col1:INT,
            col2:charArray,
@@ -45,6 +43,25 @@ data = LOAD 'data.csv' USING PigStorage(',')
            col6:INT);
 
 
-data_month = FOREACH data GENERATE col4, LOWER(ToString(ToDate(col4, 'yyyy-MM-dd'), 'MMM')),ToString(ToDate(col4, 'yyyy-MM-dd'), 'MM'), ToString(ToDate(col4, 'yyyy-MM-dd'), 'M');
+data_month = FOREACH data GENERATE col4, LOWER(ToString(ToDate(col4, 'yyyy-MM-dd'), 'MMM')) AS month;
 
-STORE data_month INTO 'output' USING PigStorage(',');
+data_month_spanish = FOREACH data_month GENERATE col4,
+                     (CASE month
+                        WHEN 'jan' THEN 'ene'
+                        WHEN 'feb' THEN 'feb'
+                        WHEN 'mar' THEN 'mar'
+                        WHEN 'apr' THEN 'abr'
+                        WHEN 'may' THEN 'may'
+                        WHEN 'jun' THEN 'jun'
+                        WHEN 'jul' THEN 'jul'
+                        WHEN 'aug' THEN 'ago'
+                        WHEN 'sep' THEN 'sep'
+                        WHEN 'oct' THEN 'oct'
+                        WHEN 'nov' THEN 'nov'
+                        WHEN 'dec' THEN 'dic'
+                        ELSE month
+                     END) AS month_spanish,
+                     ToString(ToDate(col4, 'yyyy-MM-dd'), 'MM') AS month_number,
+                     ToString(ToDate(col4, 'yyyy-MM-dd'), 'M') AS day;
+
+STORE data_month_spanish INTO 'output' USING PigStorage(',');
