@@ -42,7 +42,28 @@ data = LOAD 'data.csv' USING PigStorage(',')
            col5:charArray,
            col6:INT);
 
+data = FOREACH data GENERATE col4, LOWER(ToString(ToDate(col4, 'yyyy-MM-dd'), 'EEE')) AS day_short, LOWER(ToString(ToDate(col4, 'yyyy-MM-dd'), 'EEEE')) AS day_long;
 
-data_month = FOREACH data GENERATE col4,ToString(ToDate(col4, 'yyyy-MM-dd'), 'dd'),ToString(ToDate(col4, 'yyyy-MM-dd'), 'd'), LOWER(ToString(ToDate(col4, 'yyyy-MM-dd'), 'EEE')), LOWER(ToString(ToDate(col4, 'yyyy-MM-dd'), 'EEEE'));
+data_day = FOREACH data GENERATE col4,ToString(ToDate(col4, 'yyyy-MM-dd'), 'dd'),ToString(ToDate(col4, 'yyyy-MM-dd'), 'd'),
+                                 (CASE day_short
+                                        WHEN 'mon' THEN 'lun'
+                                        WHEN 'tue' THEN 'mar'
+                                        WHEN 'wed' THEN 'mie'
+                                        WHEN 'thu' THEN 'jue'
+                                        WHEN 'fri' THEN 'vie'
+                                        WHEN 'sat' THEN 'sab'
+                                        WHEN 'sun' THEN 'dom'
+                                        ELSE month
+                                END),
+                                 (CASE day_long
+                                        WHEN 'monday' THEN 'lunes'
+                                        WHEN 'tuesday' THEN 'martes'
+                                        WHEN 'wednesday' THEN 'miercoles'
+                                        WHEN 'thursday' THEN 'jueves'
+                                        WHEN 'friday' THEN 'viernes'
+                                        WHEN 'saturday' THEN 'sabado'
+                                        WHEN 'sunday' THEN 'domingo'
+                                        ELSE month
+                                END);
 
-STORE data_month INTO 'output' USING PigStorage(',');
+STORE data_day INTO 'output' USING PigStorage(',');
