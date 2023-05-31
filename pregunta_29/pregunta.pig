@@ -43,6 +43,6 @@ data = LOAD 'data.csv' USING PigStorage(',')
            col6:INT);
 
 
-data_with_month = FOREACH data GENERATE col4, LOWER(ToString(ToDate(col4, 'yyyy-MM-dd'), 'MMM')),ToString(ToDate(col4, 'yyyy-MM-dd'), 'MM'), ToString(ToDate(col4, 'yyyy-MM-dd'), 'M');
+data_month = FOREACH data GENERATE col4, LOWER(ToString(ToDate(col4, 'yyyy-MM-dd'), 'MMM','ES')),ToString(ToDate(col4, 'yyyy-MM-dd'), 'MM'), ToString(ToDate(col4, 'yyyy-MM-dd'), 'M');
 
-STORE data_with_month INTO 'output' USING PigStorage(',');
+STORE data_month INTO 'output' USING PigStorage(',');
